@@ -16,7 +16,7 @@ class MessageBuilder {
     return {
       "room_id": roomId,
       "message": message.message,
-      "sendBy": message.sendBy,
+      "sendBy": message.sentBy,
       "message_type": message.messageType.name,
       "voice_message_duration": message.voiceMessageDuration?.inMilliseconds,
       "createdAt": message.createdAt.toString(),
@@ -49,7 +49,7 @@ class MessageBuilder {
       id: json["id"],
       message: await _parseMessageText(json, recordModel),
       createdAt: DateFormat("yyyy-MM-dd hh:mm:ss").parse(json["createdAt"]),
-      sendBy: json["sendBy"],
+      sentBy: json["sendBy"],
       messageType: _parseMessageType(json["message_type"]),
       voiceMessageDuration: _parseDuration(json["voice_message_duration"]),
       replyMessage: ReplyMessage(

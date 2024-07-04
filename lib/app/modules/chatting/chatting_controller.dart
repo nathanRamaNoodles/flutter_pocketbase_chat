@@ -51,7 +51,7 @@ class ChattingController extends GetxController {
       message: message,
       messageType: messageType,
       createdAt: DateTime.now(),
-      sendBy: currentUser.id,
+      sentBy: currentUser.id,
       replyMessage: replyMessage,
     );
     if (chatController.initialMessageList.isEmpty) {
@@ -71,10 +71,10 @@ class ChattingController extends GetxController {
       profilePhoto: chatUser.getProfilePic?.toString(),
     );
     chatController = ChatController(
-      initialMessageList: [],
-      scrollController: ScrollController(),
-      chatUsers: [currentUser],
-    );
+        initialMessageList: [],
+        scrollController: ScrollController(),
+        currentUser: currentUser,
+        otherUsers: []);
   }
 
   Future<void> _addNewMessages(List<Message> chatDataList) async {
@@ -92,16 +92,16 @@ class ChattingController extends GetxController {
 
   Future<void> _addNewUsers(List<Message> messages) async {
     for (var message in messages) {
-      bool isUsersExist = chatController.chatUsers.any((user) {
-        return user.id == message.sendBy;
+      bool isUsersExist = chatController.otherUsers.any((user) {
+        return user.id == message.sentBy;
       });
       if (!isUsersExist) {
         // use better way to get userName
         User userDetails = await PocketbaseService.to
-            .getUserDetails(message.sendBy, useCache: true);
-        chatController.chatUsers.add(ChatUser(
+            .getUserDetails(message.sentBy, useCache: true);
+        chatController.otherUsers.add(ChatUser(
           name: userDetails.name ?? "",
-          id: message.sendBy,
+          id: message.sentBy,
           profilePhoto: userDetails.getProfilePic?.toString(),
         ));
       }
@@ -112,7 +112,7 @@ class ChattingController extends GetxController {
     unsubscribeFunc = await PocketbaseService.to.subscribeToChatUpdates(
         roomId: chatsRoom.id ?? "0",
         onChat: (Message message) {
-          if (message.sendBy != currentUser.id) {
+          if (message.sentBy != currentUser.id) {
             _addNewMessages([message]);
           }
         });

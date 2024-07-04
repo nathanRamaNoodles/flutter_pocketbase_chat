@@ -19,7 +19,6 @@ class ChattingView extends GetView<ChattingController> {
             backgroundColor: Colors.black,
           ),
           chatController: controller.chatController,
-          currentUser: controller.currentUser,
           chatViewState: controller.chatViewState.value,
           onSendTap: controller.onSendTap,
           chatViewStateConfig: ChatViewStateConfiguration(

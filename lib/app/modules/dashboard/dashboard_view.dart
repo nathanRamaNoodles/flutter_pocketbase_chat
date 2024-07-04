@@ -72,9 +72,9 @@ class LastMessageBuilder extends StatelessWidget {
         }
         Message message = messages.first;
         if (message.messageType == MessageType.image) {
-          return Text("Image message from : ${message.sendBy}");
+          return Text("Image message from : ${message.sentBy}");
         } else if (message.messageType == MessageType.voice) {
-          return Text("voice message from : ${message.sendBy}");
+          return Text("voice message from : ${message.sentBy}");
         }
         return Text(message.message);
       },
