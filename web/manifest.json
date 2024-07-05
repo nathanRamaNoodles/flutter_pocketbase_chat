@@ -1,6 +1,6 @@
 {
-    "name": "pocketbase_chat",
-    "short_name": "pocketbase_chat",
+    "name": "flutter_pocketbase_chat",
+    "short_name": "flutter_pocketbase_chat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -19,14 +19,14 @@ class PocketbaseService extends GetxService {
 
   late PocketBase _client;
   late AuthStore _authStore;
-  late String _temporaryDirectory;
-  final _httpClient = HttpClient();
+  // late String _temporaryDirectory;
+  //final _httpClient = HttpClient();
   final _cachedUsersData = {};
   User? user;
   bool get isAuth => user != null;
 
   Future<PocketbaseService> init() async {
-    _temporaryDirectory = (await getTemporaryDirectory()).path;
+    // _temporaryDirectory = (await getTemporaryDirectory()).path;
     _initializeAuthStore();
     _client = PocketBase(_pocketBaseUrl, authStore: _authStore);
     // Listen to authStore changes
@@ -191,16 +191,17 @@ class PocketbaseService extends GetxService {
     required String fileName,
     bool useCache = false,
   }) async {
-    try {
-      Uri fileUri = _client.getFileUrl(recordModel, fileName);
-      File file = File('$_temporaryDirectory/$fileName');
-      if (useCache && file.existsSync()) return file;
-      var request = await _httpClient.getUrl(fileUri);
-      var response = await request.close();
-      var bytes = await consolidateHttpClientResponseBytes(response);
-      return await file.writeAsBytes(bytes);
-    } catch (error) {
+    // TODO, web does not support download file: https://stackoverflow.com/questions/57182634/how-can-i-read-and-write-files-in-flutter-web
+    // try {
+    //   Uri fileUri = _client.getFileUrl(recordModel, fileName);
+    //   File file = File('$_temporaryDirectory/$fileName');
+    //   if (useCache && file.existsSync()) return file;
+    //   var request = await _httpClient.getUrl(fileUri);
+    //   var response = await request.close();
+    //   var bytes = await consolidateHttpClientResponseBytes(response);
+    //   return await file.writeAsBytes(bytes);
+    // } catch (error) {
       return null;
-    }
+    // }
   }
 }
